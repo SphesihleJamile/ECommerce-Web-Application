@@ -1,5 +1,5 @@
-using ECommernceWeb.Data;
-using ECommernceWeb.Models;
+using Ecommerce.DataAccess.Data;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -31,6 +31,7 @@ namespace ECommernceWeb.Pages.CategoryPages
             {
                 dbContext.Categories.Update(Category);
                 await dbContext.SaveChangesAsync();
+                TempData["success"] = "Category Updated Successfully";
                 return RedirectToPage("Index");
             }
             else

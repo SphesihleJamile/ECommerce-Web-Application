@@ -1,5 +1,5 @@
-using ECommernceWeb.Data;
-using ECommernceWeb.Models;
+using Ecommerce.DataAccess.Data;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -28,6 +28,7 @@ namespace ECommernceWeb.Pages.CategoryPages
             {
                 dbContext.Categories.Remove(categoryFromDb);
                 await dbContext.SaveChangesAsync();
+                TempData["success"] = "Category Deleted Successfully";
                 return RedirectToPage("Index");
             }
             return Page();

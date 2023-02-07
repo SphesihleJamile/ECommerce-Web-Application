@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ECommernceWeb.Migrations
+namespace Ecommerce.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class ApplicationDbContextadded : Migration
+    public partial class AddCategoryToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
