@@ -3,7 +3,7 @@ using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ECommernceWeb.Pages.CategoryPages
+namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
     public class IndexModel : PageModel
     {

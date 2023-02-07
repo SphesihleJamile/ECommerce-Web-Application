@@ -3,15 +3,15 @@ using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ECommernceWeb.Pages.CategoryPages
+namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
-    public class DeleteModel : PageModel
+    public class EditCategoryModel : PageModel
     {
         private readonly ApplicationDbContext dbContext;
         [BindProperty]
         public Category Category { get; set; }
 
-        public DeleteModel(ApplicationDbContext dbContext)
+        public EditCategoryModel(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -23,15 +23,21 @@ namespace ECommernceWeb.Pages.CategoryPages
 
         public async Task<IActionResult> OnPost()
         {
-            var categoryFromDb = dbContext.Categories.Find(Category.Id);
-            if (categoryFromDb != null)
+            if(Category.Name == Category.DisplayOrder.ToString())
             {
-                dbContext.Categories.Remove(categoryFromDb);
+                ModelState.AddModelError("Category.Name", "Category Name and Display Order cannot have the exact same value");
+            }
+            if(ModelState.IsValid)
+            {
+                dbContext.Categories.Update(Category);
                 await dbContext.SaveChangesAsync();
-                TempData["success"] = "Category Deleted Successfully";
+                TempData["success"] = "Category Updated Successfully";
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }
