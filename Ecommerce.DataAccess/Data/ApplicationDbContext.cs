@@ -11,5 +11,6 @@ namespace Ecommerce.DataAccess.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<FoodType> FoodTypes { get; set; }
     }
 }
