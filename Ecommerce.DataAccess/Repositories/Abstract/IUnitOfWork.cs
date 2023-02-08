@@ -10,6 +10,7 @@ namespace Ecommerce.DataAccess.Repositories.Abstract
     {
         ICategoryRepository Category { get; }
         IFoodTypeRepository FoodType { get; }
+        IMenuItemRepository MenuItem { get; }
         void Save();
     }
 }

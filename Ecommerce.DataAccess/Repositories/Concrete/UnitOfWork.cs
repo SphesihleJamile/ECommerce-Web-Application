@@ -17,10 +17,12 @@ namespace Ecommerce.DataAccess.Repositories.Concrete
             this.dbContext = dbContext;
             Category = new CategoryRepository(dbContext);
             FoodType = new FoodTypeRepository(dbContext);
+            MenuItem = new MenuItemRepository(dbContext);
         }
 
         public ICategoryRepository Category { get; private set; }
         public IFoodTypeRepository FoodType { get; private set; }
+        public IMenuItemRepository MenuItem { get; private set; }
 
         public void Dispose()
         {
