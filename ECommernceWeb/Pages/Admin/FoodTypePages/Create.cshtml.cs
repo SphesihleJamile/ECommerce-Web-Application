@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,13 +8,13 @@ namespace ECommerceWeb.Pages.Admin.FoodTypePages
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
         public FoodType FoodType { get; set; }
 
-        public CreateModel(ApplicationDbContext dbContext)
+        public CreateModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unitOfWork = unitOfWork;
         }
 
         public void OnGet()
@@ -24,8 +25,8 @@ namespace ECommerceWeb.Pages.Admin.FoodTypePages
         {
             if(ModelState.IsValid)
             {
-                await dbContext.FoodTypes.AddAsync(FoodType);
-                await dbContext.SaveChangesAsync();
+                _unitOfWork.FoodType.Add(FoodType);
+                _unitOfWork.Save();
                 TempData["success"] = "Food Type Added Successfuly";
                 return RedirectToPage("Index");
             }

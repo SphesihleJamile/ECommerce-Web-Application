@@ -1,4 +1,6 @@
-﻿using Ecommerce.DataAccess.Data;
+﻿
+
+using Ecommerce.DataAccess.Data;
 using Ecommerce.DataAccess.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;

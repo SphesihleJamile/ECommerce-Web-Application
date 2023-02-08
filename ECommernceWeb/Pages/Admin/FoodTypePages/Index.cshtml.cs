@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,16 +9,16 @@ namespace ECommerceWeb.Pages.Admin.FoodTypePages
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
         public IEnumerable<FoodType> FoodType { get; set; }
 
-        public IndexModel(ApplicationDbContext dbContext)
+        public IndexModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
         public async Task OnGet()
         {
-            FoodType = await dbContext.FoodTypes.ToListAsync();
+            FoodType = _unitOfWork.FoodType.GetAll();
         }
     }
 }

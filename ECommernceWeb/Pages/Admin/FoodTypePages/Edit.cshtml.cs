@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,26 +8,26 @@ namespace ECommerceWeb.Pages.Admin.FoodTypePages
 {
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
         public FoodType FoodType { get; set; }
 
-        public EditModel(ApplicationDbContext dbContext)
+        public EditModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unitOfWork = unitOfWork;
         }
 
         public async Task OnGet(int id)
         {
-            FoodType = await dbContext.FoodTypes.FindAsync(id);
+            FoodType = _unitOfWork.FoodType.GetFirstOrDefault(u => u.Id == id);
         }
 
         public async Task<IActionResult> OnPost()
         {
             if (ModelState.IsValid)
             {
-                dbContext.FoodTypes.Update(FoodType);
-                await dbContext.SaveChangesAsync();
+                _unitOfWork.FoodType.Update(FoodType);
+                _unitOfWork.Save();
                 TempData["success"] = "Food Type Updated Successfully";
                 return RedirectToPage("Index");
             }

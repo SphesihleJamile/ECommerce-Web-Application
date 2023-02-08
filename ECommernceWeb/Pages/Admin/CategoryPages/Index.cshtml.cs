@@ -10,7 +10,6 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public IEnumerable<Category> CategoryList { get; set; }
 
         public IndexModel(IUnitOfWork unitOfWork)
