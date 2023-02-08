@@ -19,9 +19,11 @@ namespace Ecommerce.Models
         public string ImagePath { get; set; }
         [Range(1, 1000, ErrorMessage = "Price should be between R1 and R1000")]
         public double Price { get; set; }
+        [Display(Name = "Food Type")]
         public int FoodTypeId { get; set; }
         [ForeignKey("FoodTypeId")]
         public FoodType FoodType { get; set; }
+        [Display(Name = "Category Id")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
     }

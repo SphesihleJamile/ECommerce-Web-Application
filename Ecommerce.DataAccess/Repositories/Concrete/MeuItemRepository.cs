@@ -21,7 +21,16 @@ namespace Ecommerce.DataAccess.Repositories.Concrete
         public void Update(MenuItem menuItem)
         {
             var objFromDB = dbContext.MenuItem.FirstOrDefault(U => U.Id == menuItem.Id);
-            
+            objFromDB.Name = menuItem.Name;
+            objFromDB.Decription = menuItem.Decription;
+            objFromDB.ImagePath = menuItem.ImagePath;
+            objFromDB.Price = menuItem.Price;
+            objFromDB.CategoryId = menuItem.CategoryId;
+            objFromDB.FoodTypeId = menuItem.FoodTypeId;
+            if(objFromDB.ImagePath != null)
+            {
+                objFromDB.ImagePath = menuItem.ImagePath;
+            }
         }
     }
 }
