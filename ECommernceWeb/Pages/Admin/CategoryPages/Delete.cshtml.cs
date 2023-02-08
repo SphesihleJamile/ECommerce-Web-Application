@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,27 +8,28 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
     public class DeleteModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+
         [BindProperty]
         public Category Category { get; set; }
 
-        public DeleteModel(ApplicationDbContext dbContext)
+        public DeleteModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unitOfWork = unitOfWork;
         }
 
         public async Task OnGet(int id)
         {
-            Category = await dbContext.Categories.FindAsync(id);
+            Category = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
         }
 
         public async Task<IActionResult> OnPost()
         {
-            var categoryFromDb = dbContext.Categories.Find(Category.Id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == Category.Id);
             if (categoryFromDb != null)
             {
-                dbContext.Categories.Remove(categoryFromDb);
-                await dbContext.SaveChangesAsync();
+                _unitOfWork.Category.Remove(categoryFromDb);
+                _unitOfWork.Save();
                 TempData["success"] = "Category Deleted Successfully";
                 return RedirectToPage("Index");
             }

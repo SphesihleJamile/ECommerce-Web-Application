@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.DataAccess.Repositories.Abstract
 {
-    internal interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         //Get All, Get By Id Firt or Default, Add, Remove, RemoveRange
 

@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,18 +8,19 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
     public class EditCategoryModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+
         [BindProperty]
         public Category Category { get; set; }
 
-        public EditCategoryModel(ApplicationDbContext dbContext)
+        public EditCategoryModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unitOfWork = unitOfWork;
         }
 
         public async Task OnGet(int id)
         {
-            Category = await dbContext.Categories.FindAsync(id);
+            Category = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
         }
 
         public async Task<IActionResult> OnPost()
@@ -29,8 +31,8 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
             }
             if(ModelState.IsValid)
             {
-                dbContext.Categories.Update(Category);
-                await dbContext.SaveChangesAsync();
+                _unitOfWork.Category.Update(Category);
+                _unitOfWork.Save();
                 TempData["success"] = "Category Updated Successfully";
                 return RedirectToPage("Index");
             }

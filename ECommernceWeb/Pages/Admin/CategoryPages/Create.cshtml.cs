@@ -1,4 +1,5 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,13 +8,14 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unityOfWork;
+
         [BindProperty]
         public Category Category { get; set; }
 
-        public CreateModel(ApplicationDbContext dbContext)
+        public CreateModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unityOfWork = unitOfWork;
         }
 
         public void OnGet()
@@ -29,8 +31,8 @@ namespace ECommernceWeb.Pages.Admin.CategoryPages
             }
             if(ModelState.IsValid)
             {
-                await dbContext.Categories.AddAsync(Category);
-                await dbContext.SaveChangesAsync();
+                _unityOfWork.Category.Add(Category);
+                _unityOfWork.Save();
                 TempData["success"] = "Category Created Successfully";
                 return RedirectToPage("Index");
             }

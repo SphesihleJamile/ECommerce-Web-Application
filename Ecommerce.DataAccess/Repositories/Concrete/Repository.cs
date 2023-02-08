@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.DataAccess.Repositories.Concrete
 {
-    internal class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext dbContext;
         internal DbSet<T> dbSet;

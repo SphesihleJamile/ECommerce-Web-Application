@@ -1,22 +1,25 @@
 using Ecommerce.DataAccess.Data;
+using Ecommerce.DataAccess.Repositories.Abstract;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Client.Extensibility;
 
 namespace ECommernceWeb.Pages.Admin.CategoryPages
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+
         public IEnumerable<Category> CategoryList { get; set; }
 
-        public IndexModel(ApplicationDbContext dbContext)
+        public IndexModel(IUnitOfWork unitOfWork)
         {
-            this.dbContext = dbContext;
+            this._unitOfWork = unitOfWork;
         }
         public void OnGet()
         {
-            CategoryList = dbContext.Categories.ToList();
+            CategoryList = _unitOfWork.Category.GetAll();
         }
     }
 }
